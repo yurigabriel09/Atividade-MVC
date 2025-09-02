@@ -9,4 +9,5 @@ class TaskController:
         
         tasks = db.session.query(Task).all()
 
+
         return render_template('tasks.html', tasks=tasks)
