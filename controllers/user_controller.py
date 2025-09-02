@@ -20,6 +20,7 @@ class UserController:
             db.session.add(new_user)
             db.session.commit()
 
+
             return redirect(url_for('index'))
 
         return render_template('contact.html')
