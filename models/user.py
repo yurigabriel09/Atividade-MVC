@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
@@ -8,5 +9,6 @@ class User(db.Model): # Declaração de um novo modelo/tabela: User
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
 
+    tasks = relationship('Task', back_populates='user', cascade='all, delete-orphan')
     # define o nome da tabela no banco de dados para a classe User como "users", como boas práticas
     __tablename__ = 'users'

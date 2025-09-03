@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Tarefa</title>
+</head>
+<body>
+    <h1>Criar Nova Tarefa</h1>
+    <form method="POST" action="{{ url_for('task_new') }}">
+        <label for="title">Título:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+        
+        <label for="description">Descrição:</label><br>
+        <textarea id="description" name="description"></textarea><br><br>
+        
+        <label for="user_id">Usuário:</label><br>
+        <select id="user_id" name="user_id" required>
+            <option value="" disabled selected>Selecione um usuário</option>
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <button type="submit">Criar</button>
+    </form>
+    <a href="{{ url_for('tasks') }}">Voltar para tarefas</a>
+</body>
+</html>
