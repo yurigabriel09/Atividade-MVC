@@ -1,14 +1,36 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Minhas Tarefas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
-<body>
-    <h1>Minhas Tarefas</h1>
-    <a href="{{ url_for('task_new') }}">Criar Nova Tarefa</a>
-    <table border="1" cellpadding="5" cellspacing="0">
-        <thead>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Home</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('tasks') }}">Tarefas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('contact') }}">Cadastro</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container my-5">
+    <h1 class="mb-4">Minhas Tarefas</h1>
+    
+    <a href="{{ url_for('task_new') }}" class="btn btn-primary mb-3">Criar Nova Tarefa</a>
+    
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
             <tr>
                 <th>Título</th>
                 <th>Descrição</th>
@@ -21,30 +43,32 @@
             {% for task in tasks %}
             <tr>
                 <td>{{ task.title }}</td>
-                <td>{{ task.description or '' }}</td>
-                <td>{{ task.status }}</td>
+                <td>{{ task.description or '-' }}</td>
+                <td>
+                    {% if task.status == 'Concluído' %}
+                        <span class="badge bg-success">{{ task.status }}</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">{{ task.status }}</span>
+                    {% endif %}
+                </td>
                 <td>{{ task.user.name }}</td>
                 <td>
-                    <form style="display:inline" action="{{ url_for('task_update_status', task_id=task.id) }}" method="post">
-                        <button type="submit">
-                            {% if task.status == 'Pendente' %}
-                                Concluir
-                            {% else %}
-                                Reabrir
-                            {% endif %}
-                        </button>
+                    <form action="{{ url_for('task_update_status', task_id=task.id) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-success">Concluir</button>
                     </form>
-                    <form style="display:inline" action="{{ url_for('task_delete', task_id=task.id) }}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');">
-                        <button type="submit">Excluir</button>
+                    <form action="{{ url_for('task_delete', task_id=task.id) }}" method="post" class="d-inline ms-2">
+                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
                     </form>
                 </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="5">Nenhuma tarefa encontrada.</td>
+                <td colspan="5" class="text-center">Nenhuma tarefa encontrada.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
+
 </body>
 </html>
